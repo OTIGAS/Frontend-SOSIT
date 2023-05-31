@@ -6,9 +6,10 @@ export const LayoutContainer = styled.div`
     
     main {
         max-width: 90rem;
+        max-height: 50.9375rem;
         margin: 0 auto;
 
-        background-color: gray;
+        background-color: ${props => props.theme['color-2']};
 
         padding: 1.25rem;
 

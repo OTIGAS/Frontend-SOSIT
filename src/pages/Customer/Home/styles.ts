@@ -86,8 +86,8 @@ export const SearchButton = styled.button`
 `
 
 export const SearchResults = styled.div`
-    width: 31.25rem;
-    height: 37.5rem;
+    width: 37.5rem;
+    height: 43.125rem;
 
     padding: 0.625rem;
 
@@ -102,10 +102,27 @@ export const SearchResults = styled.div`
 
     border-radius: 8px;
     border: 2px solid ${props => props.theme['primary-neutral']};
+
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: ${props => props.theme['color-3']};
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: ${props => props.theme['color-9']};
+        border-radius: 20px;
+        border: 3px solid ${props => props.theme['color-3']};
+    }
 `
 
 export const Content = styled.div`
-    width: 45rem;
+    width: 48.75rem;
 
     padding: 1.25rem;
 
@@ -115,7 +132,94 @@ export const Content = styled.div`
 `
 
 export const ContentSchedules = styled.div`
+    height: max-content;
+    margin: auto 0;
 
+    background-color: ${props => props.theme['color-2']};
+    border: 1px solid ${props => props.theme['primary-neutral']};
+    border-radius: 8px;
+
+    padding: 0.625rem;
+
+    display: grid;
+    grid-template-columns: 0.75fr 1.25fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    'nomeAgenda sobre diaSemana'
+    'nomeServico sobre button';
+
+    strong:nth-child(1) {
+        grid-area: nomeAgenda;
+        margin: auto;
+    }
+
+    strong:nth-child(2) {
+        grid-area: nomeServico;
+        margin: auto;
+    }
+
+    p {
+        grid-area: sobre;
+        height: 11.25rem;
+
+        background-color: ${props => props.theme['color-3']};
+        border-radius: 5px;
+
+        text-align: center;
+
+        padding: 0.3125rem;
+
+        overflow-y: auto;
+
+        scrollbar-width: thin;
+        scrollbar-color: blue orange;
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: ${props => props.theme['color-3']};
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: ${props => props.theme['color-9']};
+            border-radius: 20px;
+            border: 3px solid ${props => props.theme['color-3']};
+        }
+    }
+
+    div {
+        grid-area: diaSemana;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        span {
+            margin: auto;
+        }
+    }
+
+    button {
+        width: 80%;
+        height: 50%;
+
+        margin: auto;
+
+        border: 1px solid  ${props => props.theme['primary-neutral']};
+        background-color: ${props => props.theme['color-3']};
+        border-radius: 8px;
+
+        color: ${props => props.theme['color-9']};
+
+        transition: 0.2s;
+        cursor: pointer;
+
+        :hover {
+            background-color: ${props => props.theme['color-5']};
+            color: ${props => props.theme['primary-neutral']};
+        }
+    }
 `
 
 export const ContentCompany = styled.div`
@@ -126,13 +230,13 @@ export const ContentCompany = styled.div`
     'spanSobre spanSobre spanSobre spanSobre'
     'sobre sobre sobre sobre'
     'spanSite site site site'
-    'spanTelefone spanTelefone telefone telefone'
-    'spanEmail spanEmail email email'
-    'spanCEP spanCEP cep cep'
-    'spanEstado spanEstado estado estado'
-    'spanCidade spanCidade cidade cidade'
-    'spanRua spanRua rua rua'
-    'spanNumero spanNumero numero numero';
+    'spanTelefone telefone telefone telefone'
+    'spanEmail email email email'
+    'spanCEP cep cep cep'
+    'spanEstado estado estado estado'
+    'spanCidade cidade cidade cidade'
+    'spanRua rua rua rua'
+    'spanNumero numero numero numero';
 
     img {
         width: 6.25rem;
@@ -147,8 +251,9 @@ export const ContentCompany = styled.div`
     }
 
     h1 {
-        width: 32.5rem;
-        height: auto;
+        width: 100%;
+        min-height: 2.5rem;
+        max-height: 5rem;
 
         margin: auto;
         padding-left: 1rem;
@@ -160,6 +265,25 @@ export const ContentCompany = styled.div`
         font-size: 1.75rem;
 
         flex-wrap: wrap;
+
+        overflow-y: auto;
+
+        scrollbar-width: thin;
+        scrollbar-color: blue orange;
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: ${props => props.theme['color-2']};
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: ${props => props.theme['color-9']};
+            border-radius: 20px;
+            border: 3px solid ${props => props.theme['color-2']};
+        }
     }
      
     p {
@@ -176,9 +300,26 @@ export const ContentCompany = styled.div`
         background-color: ${props => props.theme['color-2']};
 
         overflow-y: auto;
+
+        scrollbar-width: thin;
+        scrollbar-color: blue orange;
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: ${props => props.theme['color-2']};
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: ${props => props.theme['color-9']};
+            border-radius: 20px;
+            border: 3px solid ${props => props.theme['color-2']};
+        }
     }
 
-    strong {
+    strong, a {
         margin-bottom: 0.625rem;
         text-align: start;
         height: 1.75rem;

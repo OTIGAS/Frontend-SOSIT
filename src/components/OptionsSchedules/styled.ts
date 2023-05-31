@@ -5,6 +5,8 @@ export const OptionsContent = styled.div`
     align-items: center;
     justify-content: space-between;
 
+    width: 100%;
+
     margin-top: 0.625rem;
     gap: 0.625rem;
 

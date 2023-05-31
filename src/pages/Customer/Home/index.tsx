@@ -93,7 +93,7 @@ export function Home() {
                     <h1 className="nome"></h1>
 
                     <span className="spanSobre">Descrição:</span>
-                    <p className="sobre"></p>
+                    <p className="sobre">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus eum consequatur vero quibusdam magni magnam mollitia aliquid officiis iusto autem inventore, aperiam iure voluptate ad optio deserunt aspernatur ducimus fuga! lorem</p>
 
                     <span className="spanSite">Site ou Google:</span>
                     <a href="" className="site"></a>
@@ -120,7 +120,18 @@ export function Home() {
                     <strong className="numero"></strong>
                 </ContentCompany>
                 <ContentSchedules>
-                    
+                    <strong>Nome da Agenda</strong>
+                    <strong>Nome do Serviço</strong>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis molestias ducimus assumenda. Quidem, itaque sint amet illo iure culpa odio ut distinctio! Dolorem veritatis at voluptas molestias possimus ipsam ipsa! lor lore Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste velit adipisci, quibusdam itaque aspernatur odit saepe tempore eveniet dolorum laborum quaerat officiis omnis sapiente distinctio repellat voluptates numquam impedit repudiandae.</p>
+                    <div>
+                        <span>Segunda</span>
+                        <span>Terça</span>
+                        <span>Quarta</span>
+                        <span>Quinta</span>
+                        <span>Sexta</span>
+                        <span>Sabado</span>
+                    </div>
+                    <button>Abrir Agenda</button>
                 </ContentSchedules>
             </Content>
         </>

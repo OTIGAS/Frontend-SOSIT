@@ -11,14 +11,8 @@ export function ThemaStorage({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<string>('light');
 
     function handleThemeChange() {
-        const storageTheme = window.localStorage.getItem(theme);
-        if (storageTheme) {
-            setTheme(storageTheme);
-        } else {
-            setTheme(theme === 'dark' ? 'light' : 'dark');
-            window.localStorage.setItem('theme', theme);
-        }
-        
+        setTheme(theme === 'dark' ? 'light' : 'dark');
+        window.localStorage.setItem('theme', theme);
     }
 
     return(

@@ -1,3 +1,10 @@
 export function HistoryCustomer() {
-    return <h1>Historico Clientes</h1>
+    return (
+        <>
+            <div>
+                <strong>Nome da Empresa</strong>
+                
+            </div>
+        </>
+    )
 }
