@@ -9,8 +9,10 @@ import { UserContext } from "../../context/UserContext";
 import { ThemaContext } from "../../context/ThemeContext";
 
 export function Header() {
-    const { nome, userLogout } = useContext(UserContext);
+    const { nome, userLogout, typeUser } = useContext(UserContext);
     const { handleThemeChange, theme } = useContext(ThemaContext);
+
+    const rota = typeUser === 'company' ? "/cliente/perfil" : "/cliente/perfil"
 
     return (
         <HeaderContent>
@@ -25,7 +27,7 @@ export function Header() {
                 <List size={38}/>
                 <ul>
                     <li>
-                        <NavLink to="/cliente/perfil">
+                        <NavLink to={rota}>
                             Perfil
                             <User />
                         </NavLink>

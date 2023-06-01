@@ -25,6 +25,7 @@ import { UserStorage } from "./context/UserContext";
 import { ThemaContext } from "./context/ThemeContext";
 import { ProfileCustomer } from "./pages/Customer/Profile";
 import { ScheduleCustomer } from "./pages/Customer/Schedule";
+import { ProfileCompany } from "./pages/Company/Profile";
 
 
 export function App() {
@@ -52,6 +53,7 @@ export function App() {
                 <Route path="/" element={<CompanyDefaultLayout />}>
                     <Route path="/empresa/agendas" element={<Schedule />}/>
                     <Route path="/empresa/historico" element={<HistoryCompany />}/>
+                    <Route path="/empresa/perfil" element={<ProfileCompany />}/>
                 </Route>
 
               </Routes>

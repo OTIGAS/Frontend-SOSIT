@@ -1,3 +1,4 @@
+import { TD } from '../../../components/TD';
 import { Container } from './styles';
 
 interface Disponibilidade {
@@ -32,10 +33,10 @@ export function ScheduleCustomer() {
         inicio: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
         fim: ['06:59', '07:59', '08:59', '09:59', '10:59', '11:59', '12:59', '13:59', '14:59', '15:59', '16:59', '18:00'],
     },
-    sex: {
-        inicio: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
-        fim: ['06:59', '07:59', '08:59', '09:59', '10:59', '11:59', '12:59', '13:59', '14:59', '15:59', '16:59', '18:00'],
-    },
+    // sex: {
+    //     inicio: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+    //     fim: ['06:59', '07:59', '08:59', '09:59', '10:59', '11:59', '12:59', '13:59', '14:59', '15:59', '16:59', '18:00'],
+    // },
     sab: {
         inicio: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
         fim: ['06:59', '07:59', '08:59', '09:59', '10:59', '11:59', '12:59', '13:59', '14:59', '15:59', '16:59', '18:00'],
@@ -50,8 +51,8 @@ export function ScheduleCustomer() {
 
     const idUsuario = '01'
     const diaAgendado = '2023-06-07';
-    const horarioInicioAgendado = '13:00';
-    const horarioFimAgendado = '16:00';
+    const horarioInicioAgendado = '10:00';
+    const horarioFimAgendado = '12:00';
 
   return (
     <Container>
@@ -95,23 +96,33 @@ export function ScheduleCustomer() {
             <tr key={horario}>
               <td>{horario}</td>
               {diasSemana.map((dia) => {
-                const index = diasSemana.findIndex((item) => item === dia);
-                const day = index === 0 ? 'seg' : index === 1 ? 'ter' : index === 2 ? 'qua' : index === 3 ? 'qui' : index === 4 ? 'sex' : index === 5 ? 'sab' : 'dom';
 
-                console.log(disponibilidade[day].inicio, horarioInicioAgendado)
+                const indexDay = diasSemana.findIndex((item) => item === dia);
+                const day = indexDay === 0 ? 'seg' : indexDay === 1 ? 'ter' : indexDay === 2 ? 'qua' : indexDay === 3 ? 'qui' : indexDay === 4 ? 'sex' : indexDay === 5 ? 'sab' : 'dom';
 
-                return dia === diaAgendado ? (
-                    disponibilidade[day].inicio.map((horarioInicio) => {
-                        horarioInicio === horarioInicioAgendado ? (
-                            <td className='inicio'>Marcado</td>
-                        ) 
-                        : (
-                            <td>Disponivel</td>
-                        )
-                    })
-                ) : (
-                    <td>false</td>
-                );
+                const validaçãoDia = dia === diaAgendado;
+
+                console.log(disponibilidade, day)
+
+                if (day in disponibilidade) {
+                  const indexTimeInit = disponibilidade[day].inicio.findIndex((item) => item === horario);
+
+                  const validacaoInicio = disponibilidade[day].inicio[indexTimeInit] === horarioInicioAgendado;
+
+                  const validacaoFim = disponibilidade[day].inicio[indexTimeInit] === horarioFimAgendado;
+
+                  if(validaçãoDia) {
+                    if(validacaoInicio) {
+                      return <TD className='inicio' >Marcado Inicio</TD>
+                    } else if (validacaoFim) {
+                      return <TD className='fim'>Marcado Fim</TD>
+                    }
+                  } else {
+                    return <td>Disponivel</td>
+                  }
+                } else {
+                  return <td>Vazio</td>
+                }
               })}
             </tr>
           ))}
