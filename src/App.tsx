@@ -23,6 +23,8 @@ import { CreateCustomerAccount } from "./pages/CreateCustomerAccount copy";
 import { useContext } from 'react'
 import { UserStorage } from "./context/UserContext";
 import { ThemaContext } from "./context/ThemeContext";
+import { ProfileCustomer } from "./pages/Customer/Profile";
+import { ScheduleCustomer } from "./pages/Customer/Schedule";
 
 
 export function App() {
@@ -43,6 +45,8 @@ export function App() {
                 <Route path="/" element={<CustomerDefaultLayout />}>
                     <Route path="/cliente/home" element={<Home />}/>
                     <Route path="/cliente/historico" element={<HistoryCustomer />}/>
+                    <Route path="/cliente/perfil" element={<ProfileCustomer />}/>
+                    <Route path="/cliente/agendar" element={<ScheduleCustomer />}/>
                 </Route>
 
                 <Route path="/" element={<CompanyDefaultLayout />}>

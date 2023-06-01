@@ -25,4 +25,12 @@ export const OptionsContent = styled.div`
         gap: 0.625rem;
         flex-wrap: wrap;
     }
+
+    transition: 0.2s;
+
+    cursor: pointer;
+
+    :hover {
+        background-color: ${props => props.theme['color-4']};
+    }
 `

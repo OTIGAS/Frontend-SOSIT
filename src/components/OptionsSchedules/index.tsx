@@ -1,4 +1,4 @@
-import { OptionsContent } from "./styled";
+import { OptionsContent } from "./styles";
 
 interface PropsOptions {
   nome_fantasia: string;

@@ -115,7 +115,7 @@ export const SearchResults = styled.div`
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: ${props => props.theme['color-9']};
+        background-color: ${props => props.theme['color-5']};
         border-radius: 20px;
         border: 3px solid ${props => props.theme['color-3']};
     }
@@ -150,12 +150,21 @@ export const ContentSchedules = styled.div`
 
     strong:nth-child(1) {
         grid-area: nomeAgenda;
-        margin: auto;
     }
 
     strong:nth-child(2) {
         grid-area: nomeServico;
+    }
+
+    strong {
+        text-align: center;
+
         margin: auto;
+        width: 85%;
+        height: 80%;
+
+        background-color: ${props => props.theme['color-3']};
+        border-radius: 5px;
     }
 
     p {
@@ -183,7 +192,7 @@ export const ContentSchedules = styled.div`
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: ${props => props.theme['color-9']};
+            background-color: ${props => props.theme['color-5']};
             border-radius: 20px;
             border: 3px solid ${props => props.theme['color-3']};
         }
@@ -198,6 +207,10 @@ export const ContentSchedules = styled.div`
         span {
             margin: auto;
         }
+
+        width: 90%;
+        margin: 0 auto;
+        background-color: ${props => props.theme['color-3']};
     }
 
     button {
@@ -215,9 +228,14 @@ export const ContentSchedules = styled.div`
         transition: 0.2s;
         cursor: pointer;
 
-        :hover {
+        :not(:disabled)hover {
             background-color: ${props => props.theme['color-5']};
             color: ${props => props.theme['primary-neutral']};
+        }
+
+        :disabled:hover {
+            background-color: ${props => props.theme['red-300']};
+            cursor: not-allowed;
         }
     }
 `
@@ -245,9 +263,11 @@ export const ContentCompany = styled.div`
 
         border-radius: 20px;
         border: 2px solid ${props => props.theme['primary-neutral']};
-        background-color: ${props => props.theme['color-2']};
+        background-color: ${props => props.theme['color-4']};
 
         margin-bottom: 1.25rem;
+
+        color: ${props => props.theme['color-9']};
     }
 
     h1 {
@@ -280,14 +300,14 @@ export const ContentCompany = styled.div`
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: ${props => props.theme['color-9']};
+            background-color: ${props => props.theme['color-5']};
             border-radius: 20px;
             border: 3px solid ${props => props.theme['color-2']};
         }
     }
      
     p {
-        max-height: 4.0625rem;
+        height: 4.0625rem;
 
         text-align: justify;
         font-size: 1rem;
@@ -313,7 +333,7 @@ export const ContentCompany = styled.div`
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: ${props => props.theme['color-9']};
+            background-color: ${props => props.theme['color-5']};
             border-radius: 20px;
             border: 3px solid ${props => props.theme['color-2']};
         }
