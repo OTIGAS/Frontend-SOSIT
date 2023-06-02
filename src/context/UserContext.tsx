@@ -82,6 +82,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('type-user');
         navigate('/');
+        console.log('TESTE')
     }, [navigate]);
 
     useEffect(() => {

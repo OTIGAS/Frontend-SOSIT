@@ -18,7 +18,7 @@ import { HistoryCompany } from "./pages/Company/History";
 
 import { Login } from "./pages/Login";
 import { CreateCompanyAccount } from "./pages/CreateCompanyAccount";
-import { CreateCustomerAccount } from "./pages/CreateCustomerAccount copy";
+import { CreateCustomerAccount } from "./pages/CreateCustomerAccount";
 
 import { useContext } from 'react'
 import { UserStorage } from "./context/UserContext";

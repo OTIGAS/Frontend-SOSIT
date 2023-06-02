@@ -1,25 +1,28 @@
+import { ErrorMessage } from "../Erro";
 import { InputStyled } from "./styles";
 
 interface PropsInput {
-    placeholder: string;
-    type: string;
-    value: string;
-    error: string | null;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+    id?: string;
+    placeholder?: string;
+    Etype?: string;
+    value?: string;
+    error?: string | null;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export function Input({ placeholder, type, value, onChange, error, onBlur}: PropsInput) {
+export function Input({ id, placeholder, Etype, value, onChange, error, onBlur}: PropsInput) {
     return(
         <>
-            <InputStyled 
-                type={type}
+            <InputStyled
+                id={id} 
+                type={Etype}
                 placeholder={placeholder} 
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
             />
-            {error ? <p>{error}</p> : null} 
+            <ErrorMessage error={error} />
         </>
     )
 }   

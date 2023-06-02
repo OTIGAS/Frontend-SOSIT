@@ -13,14 +13,34 @@ import {
 import { OptionsSchedule } from "../../../components/OptionsSchedules/"
 
 import CompanyIcon from '../../../assets/company-icon.svg'
+import { useForm } from "../../../hooks/useForm"
+import { SCHEDULE_POST_SERVICE } from "../../../api/api"
 
 export function Home() {
+
+    const token = window.localStorage.getItem('token')
+
+    const service = useForm('');
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (token) {
+            console.log(service.value, token)
+            const {url, options} = SCHEDULE_POST_SERVICE({
+                query: service.value
+            }, token);
+            console.log(url, options)
+            const response = await fetch(url, options);
+            const json = await response.json();
+            console.log(json);
+        }
+    }
 
     return (
         <>
             <div>
-                <ServiceSearchForm action="">
-                    <ServiceSearchInput placeholder="Buscar por..." type="text" />
+                <ServiceSearchForm onSubmit={handleSubmit}>
+                    <ServiceSearchInput placeholder="Buscar por..." {...service} />
                     <SelectSearch>
                         <SelectOptions value="service">Serviço</SelectOptions>
                         <SelectOptions value="company">Empresa</SelectOptions>
@@ -32,54 +52,6 @@ export function Home() {
                 </ServiceSearchForm>
 
                 <SearchResults>
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
-                    <OptionsSchedule  
-                        nome_fantasia='Nome Fantasia 01'
-                        nome_servico='Nome Serviço 01'
-                        nome_agenda='Nome Agenda 01'
-                        dias_semana={['seg', 'ter', 'qua', 'qui', 'sex', 'sab']}
-                    />
                     <OptionsSchedule  
                         nome_fantasia='Nome Fantasia 01'
                         nome_servico='Nome Serviço 01'

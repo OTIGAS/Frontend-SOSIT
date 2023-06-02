@@ -5,6 +5,10 @@ const types = {
       regexp: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       message: 'Preencha com um email válido',
     },
+    password: {
+      regexp: /^[a-zA-Z0-9]{6,}$/,
+      message: 'A senha deve ter pelo menos 6 caracteres.',
+    },
   };
   
 

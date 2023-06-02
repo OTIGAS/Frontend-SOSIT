@@ -8,8 +8,8 @@ export const HeaderContent = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
-    h1 {
+
+    /* h1 {
         max-width: fit-content;
         padding: 0 0.5rem;
 
@@ -30,7 +30,7 @@ export const HeaderContent = styled.header`
             }
         }
 
-    }
+    } */
 
     span {
         font-size: 1.5rem;
@@ -106,7 +106,56 @@ export const HeaderContent = styled.header`
         }
     }
 
-nav:hover ul {
-    display: flex;
-}
+    nav:hover ul {
+        display: flex;
+    }
 `
+
+export const Button = styled.button`
+  font-size: 17px;
+  background: transparent;
+  border: none;
+  padding: 1em 1.5em;
+  color: #f8f8f8;
+  text-transform: uppercase;
+  position: relative;
+  transition: .5s ease;
+  cursor: pointer;
+
+  &:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 2px;
+    width: 0;
+    background-color: #f8f8f8;
+    transition: .5s ease;
+  }
+
+  &:hover {
+    color: #181818;
+    transition-delay: .5s;
+  }
+
+  &:hover:before {
+    width: 100%;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 0;
+    width: 100%;
+    background-color: #f8f8f8;
+    transition: .4s ease;
+    z-index: -1;
+  }
+
+  &:hover:after {
+    height: 100%;
+    transition-delay: 0.4s;
+  }
+`;

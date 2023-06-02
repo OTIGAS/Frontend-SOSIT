@@ -10,6 +10,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 
 import { useForm } from '../../hooks/useForm';
+import { ErrorMessage } from "../../components/Erro";
 
 export function Login() { 
     const email = useForm('email');
@@ -67,7 +68,7 @@ export function Login() {
                         {...password}
                     />
                     <NavLink to="/">esqueceu sua senha?</NavLink> 
-                    {error != null ? <p>E-mail ou senha não encontrada.</p> : undefined}  
+                    {error && <ErrorMessage error='E-mail ou senha não encontrado(s).' />}
                 </div>
                 <Button type="submit" loading={loading}>
                     {loading === true ? 'Carregando...' : 'Avançar'}

@@ -1,6 +1,21 @@
+import { HISTORY_COMMITMENTS_CUSTOMER } from "../../../api/api";
 import { HistoryContainer } from "./styles";
 
 export function HistoryCustomer() {
+
+    const token = window.localStorage.getItem('token');
+
+    async function getHistory(token: string) {
+        if (token) {
+            const {url, options} = HISTORY_COMMITMENTS_CUSTOMER(token);
+            const response = await fetch(url, options);
+            const json = await response.json();
+            console.log(json);
+        }
+    }
+
+    if (token) getHistory(token);
+
     return (
         <HistoryContainer>
             <table>

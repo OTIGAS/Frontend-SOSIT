@@ -112,12 +112,6 @@ export const LoginFormContent = styled.form`
                 color: ${props => props.theme['primary-neutral']};
             }
         }
-
-        p {
-            text-align: center;
-            font-weight: lighter;
-            color: ${props => props.theme['red-500']};
-        }
     }
 
     label {

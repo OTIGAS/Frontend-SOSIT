@@ -8,19 +8,17 @@ import { NavLink } from "react-router-dom"
 import { UserContext } from "../../context/UserContext";
 import { ThemaContext } from "../../context/ThemeContext";
 
+import { SOSITNav } from "../SOSIT";
+
 export function Header() {
     const { nome, userLogout, typeUser } = useContext(UserContext);
     const { handleThemeChange, theme } = useContext(ThemaContext);
 
-    const rota = typeUser === 'company' ? "/cliente/perfil" : "/cliente/perfil"
+    const rota = typeUser === 'company' ? "/company/perfil" : "/cliente/perfil"
 
     return (
         <HeaderContent>
-            <h1>
-                <NavLink to="/" title="Home">
-                    S.O.S.I.T.
-                </NavLink>
-            </h1>
+            <SOSITNav />
             <span>{nome}</span>
             <nav>
                 <h2>Menu</h2>
