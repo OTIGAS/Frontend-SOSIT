@@ -62,7 +62,7 @@ export function Home() {
             </div>
             <Content>
                 <ContentCompany>
-                    <img src={CompanyIcon} alt='Logo da Empresa' />
+                    <img src='#' alt='Logo da Empresa' />
 
                     <h1 className="nome"></h1>
 
