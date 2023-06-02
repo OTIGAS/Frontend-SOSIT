@@ -108,4 +108,54 @@ export const Container = styled.div`
     .buttonSalvar {
         grid-column: 2/3;
     }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 0.75fr calc((1fr) * 11);
+        grid-template-areas: 
+        'legenda legenda'
+        'nome cep'
+        'inputNome inputCep'
+        'email estado'
+        'inputEmail inputEstado'
+        'senha cidade'
+        'inputSenha inputCidade'
+        'cpf rua'
+        'inputCpf inputRua'
+        'telefone numero'
+        'inputTelefone inputNumero'
+        'buttonCancelar buttonSalvar';
+    
+        column-gap: 1.25rem;
+    
+        width: calc(100% - 2.5rem);
+        height: 100%;
+      }
+    
+      legend {
+        margin: auto 0;
+        text-align: center;
+        font-size: 2rem;
+      }
+    
+      label {
+        text-align: start;
+        margin-top: auto;
+        margin-left: 10%;
+        font-size: 1.25rem;
+      }
+    
+      input {
+        margin: auto;
+        width: 80%;
+        height: 60%;
+    
+        font-size: 1.25rem;
+        padding-left: 0.625rem;
+    
+        border-radius: 5px;
+        color: ${props => props.theme['color-9']};
+        background-color: ${props => props.theme['color-5']};
+      }
 `

@@ -84,4 +84,23 @@ export const Container = styled.div`
     .buttonSalvar {
         grid-column: 2/3;
     }
+
+    td:last-child {
+        width: 100px;
+        
+        font-size: 1.25rem;
+
+        padding: 0.3125rem 0.625rem;
+        
+        border-radius: 8px;
+
+        background-color: ${props => props.theme['color-1']};
+
+        cursor: pointer;
+        transition: 0.2s;
+
+        :hover {
+            background-color: ${props => props.theme['red-300']};
+        }
+    }
 `

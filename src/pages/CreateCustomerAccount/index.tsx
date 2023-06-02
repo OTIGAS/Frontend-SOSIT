@@ -5,21 +5,6 @@ import { useForm } from "../../hooks/useForm";
 import { Container } from "./styles";
 import { UserContext } from "../../context/UserContext";
 
-type Customer = {
-    id: string
-    nome: string
-    email: string
-    senha_hash: string
-    cpf: string
-    telefone: string
-    cep: string
-    estado: string
-    cidade: string
-    rua: string
-    numero: string
-    nascimento: string
-}
-
 export function CreateCustomerAccount () {
     const email = useForm('email');
     const password = useForm('password');

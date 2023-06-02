@@ -2,31 +2,6 @@ import { Input } from "../../components/Input"
 import { useForm } from "../../hooks/useForm"
 import { Container } from "./styles"
 
-type Company = {
-    id: string
-    nome_fantasia: string
-    razao_social: string
-    email: string
-    senha_hash: string
-    cnpj: string
-    sobre: string
-    img_perfil: string
-    link_google: string
-    telefone: string
-    email_contato: string
-    nome_contato: string
-    cep: string
-    estado: string
-    cidade: string
-    rua: string
-    numero: string
-    banco: string
-    agencia: string
-    digito: string
-    tipo_conta: string
-    conta: string
-}
-
 export function CreateCompanyAccount() {
     const email = useForm('email');
     const password = useForm('password');
