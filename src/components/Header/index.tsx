@@ -18,7 +18,8 @@ export function Header() {
 
     return (
         <HeaderContent>
-            <SOSITNav />
+            {/* <SOSITNav /> */}
+            <h1>SOSIT</h1>
             <span>{nome}</span>
             <nav>
                 <h2>Menu</h2>
