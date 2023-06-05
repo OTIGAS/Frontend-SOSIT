@@ -146,6 +146,15 @@ export function COMPANY_PATCH(body: Company, id: string) {
     }
 }
 
+export function GET_ID_COMPANY(id: string) {
+    return {
+        url: API_URL + '/companies/get/' + id,
+        options: {
+            method: 'GET',
+        }
+    }
+}
+
 interface Body {
     query: string;
 }

@@ -7,6 +7,9 @@ export const CosutmerDefaultLayout = styled.div`
     main {
         max-width: 90rem;
         margin: 0 auto;
+        margin-bottom: 1.25rem;
+
+        height: max-content;
 
         border-radius: 8px;
         background-color: ${props => props.theme['color-2']};

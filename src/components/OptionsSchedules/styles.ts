@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const OptionsContent = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 
     width: 100%;
 
@@ -18,12 +18,18 @@ export const OptionsContent = styled.div`
 
     text-align: center;
 
+    strong {
+        flex: 1;
+    }
+
     div {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
 
         gap: 0.625rem;
         flex-wrap: wrap;
+
+        flex: 1;
     }
 
     transition: 0.2s;

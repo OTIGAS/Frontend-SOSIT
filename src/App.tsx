@@ -28,6 +28,7 @@ import { ScheduleCustomer } from "./pages/Customer/Schedule";
 // import { ProfileCompany } from "./pages/Company/Profile";
 
 import { ProtectedRoute } from "./protected-route/ProtectedRoute";
+import { ScheduleStorage } from "./context/ScheduleContext";
 
 
 export function App() {
@@ -39,40 +40,42 @@ export function App() {
       <ThemeProvider theme={theme === 'dark' ? defaultThemeLight : defaultThemeDark}>
         <BrowserRouter>
             <UserStorage>
+              <ScheduleStorage>
               
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/criar-conta-empresa" element={<CreateCompanyAccount />} />
-                <Route path="/criar-conta-cliente" element={<CreateCustomerAccount />} />
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/criar-conta-empresa" element={<CreateCompanyAccount />} />
+                  <Route path="/criar-conta-cliente" element={<CreateCustomerAccount />} />
 
-                <Route path="/" element={<CustomerDefaultLayout />}>
-                    <Route path="/cliente/home" element={
-                      <ProtectedRoute>
-                        <Home />
-                      </ProtectedRoute>
-                    }/>
-                    <Route path="/cliente/historico" element={
-                      <ProtectedRoute>
-                        <HistoryCustomer />
-                      </ProtectedRoute>
-                    }/>
-                    <Route path="/cliente/perfil" element={
-                      <ProtectedRoute>
-                        <ProfileCustomer />
-                      </ProtectedRoute>
-                    }/>
-                    <Route path="/cliente/agendar" element={
-                      <ScheduleCustomer />                        
-                    }/>
-                </Route>
+                  <Route path="/" element={<CustomerDefaultLayout />}>
+                      <Route path="/cliente/home" element={
+                        <ProtectedRoute>
+                          <Home />
+                        </ProtectedRoute>
+                      }/>
+                      <Route path="/cliente/historico" element={
+                        <ProtectedRoute>
+                          <HistoryCustomer />
+                        </ProtectedRoute>
+                      }/>
+                      <Route path="/cliente/perfil" element={
+                        <ProtectedRoute>
+                          <ProfileCustomer />
+                        </ProtectedRoute>
+                      }/>
+                      <Route path="/cliente/agendar" element={
+                        <ScheduleCustomer />                        
+                      }/>
+                  </Route>
 
-                <Route path="/" element={<CompanyDefaultLayout />}>
-                    <Route path="/empresa/agendas" element={<Schedule />}/>
-                    <Route path="/empresa/historico" element={<HistoryCompany />}/>
-                    {/* <Route path="/empresa/perfil" element={<ProfileCompany />}/> */}
-                </Route>
+                  <Route path="/" element={<CompanyDefaultLayout />}>
+                      <Route path="/empresa/agendas" element={<Schedule />}/>
+                      <Route path="/empresa/historico" element={<HistoryCompany />}/>
+                      {/* <Route path="/empresa/perfil" element={<ProfileCompany />}/> */}
+                  </Route>
 
-              </Routes>
+                </Routes>
+              </ScheduleStorage>
             </UserStorage> 
         </BrowserRouter>
         <GlobalStyle />

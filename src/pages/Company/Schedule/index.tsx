@@ -1,37 +1,30 @@
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { startOfWeek, addDays, format } from 'date-fns';
+import { Container } from './styles';
 
-const MyCalendar = () => {
-  const getStartOfWeek = (dayOfWeek) => {
-    const today = new Date();
-    const startOfCurrentWeek = startOfWeek(today);
-    const startOfDesiredWeek = addDays(startOfCurrentWeek, dayOfWeek - 1);
-    return format(startOfDesiredWeek, "yyyy-MM-dd'T'HH:mm:ss");
-  };
-
-  const events = [
-    {
-      id: '1',
-      title: 'The Title',
-      start: getStartOfWeek(1) || '', // segunda-feira
-      end: getStartOfWeek(1) || '', // mesma data de início
-    },
-  ];
+export function Schedule() {
 
   return (
-    <FullCalendar
-      plugins={[timeGridPlugin]}
-      initialView="timeGridWeek"
-      eventShortHeight={30}
-      eventClick={(info) => {
-        info.jsEvent.preventDefault();
-        console.log(new Date(info.event.start));
-      }}
-      events={events}
-    />
-  );
-};
+    <Container>
+      <FullCalendar 
+        plugins={[ timeGridPlugin  ]}
+        initialView='timeGridWeek'
+        eventShortHeight={30}
+        eventClick={(info: any) => {
+          info.jsEvent.preventDefault();
+          console.log(new Date(info.event.start))
+        }}
+        events={[
+          { 
+            id: '1',
+            title: 'The Title',
+            start: '2023-06-04T05:00:00',
+            end: '2023-06-04T06:00:00', 
+          }
+        ]}
+      />
+    </Container>
 
-export default MyCalendar;
+  )
+}
 

@@ -1,17 +1,15 @@
 import { OptionsContent } from "./styles";
 
 interface PropsOptions {
-  nome_fantasia: string;
   nome_servico: string;
   nome_agenda: string;
   dias_semana: string[];
 }
 
-export function OptionsSchedule({ nome_fantasia, nome_servico, nome_agenda, dias_semana }: PropsOptions) {
+export function OptionsSchedule({ nome_servico, nome_agenda, dias_semana }: PropsOptions) {
   return (
     <>
       <OptionsContent>
-        <strong>{nome_fantasia}</strong>
         <strong>{nome_servico}</strong>
         <strong>{nome_agenda}</strong>
         <div>
