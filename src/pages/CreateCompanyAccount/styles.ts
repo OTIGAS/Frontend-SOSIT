@@ -16,11 +16,12 @@ export const Container = styled.div`
         padding: 2.5rem;
 
         border-radius: 1rem;
-        background-color: ${props => props.theme['color-2']};
 
         legend {
             font-size: 2.5rem;
             margin: auto;
+
+            margin-bottom: 2.5rem;
         }
 
         div {
@@ -29,7 +30,7 @@ export const Container = styled.div`
 
             padding: 2.5rem;
 
-            border-top: 1px solid black;
+            border-top: 1px solid ${props => props.theme['color-9']};
 
             label {
                 text-align: start;
@@ -47,7 +48,7 @@ export const Container = styled.div`
 
                 border-radius: 5px;
                 color: ${props => props.theme['color-9']};
-                background-color: ${props => props.theme['color-1']};
+                background-color: ${props => props.theme['color-2']};
             }
 
             input:last-child {
@@ -66,14 +67,19 @@ export const Container = styled.div`
             font-size: 1.25rem;
 
             border-radius: 5px;
-            border: 1.5px solid black;
             color: ${props => props.theme['color-9']};
-            background-color: ${props => props.theme['color-1']};
+            background-color: ${props => props.theme['color-2']};
+            border: 1.5px solid ${props => props.theme['color-9']};
 
             cursor: pointer;
             transition: 0.2s;
 
-            :hover {
+            :disabled:hover {
+                cursor: not-allowed;
+                background-color: ${props => props.theme['red-500']};
+            }
+
+            :not(:disabled):hover {
                 color: ${props => props.theme['primary-neutral']};
                 background-color: ${props => props.theme['color-5']};
             }
@@ -90,7 +96,7 @@ export const Container = styled.div`
 
         border-radius: 5px;
         color: ${props => props.theme['color-9']};
-        background-color: ${props => props.theme['color-1']};
+        background-color: ${props => props.theme['color-2']};
     }
 
     .contato {

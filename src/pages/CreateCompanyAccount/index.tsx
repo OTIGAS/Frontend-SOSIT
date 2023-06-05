@@ -1,33 +1,20 @@
+import { useContext, useState } from "react"
 import { Input } from "../../components/Input"
 import { useForm } from "../../hooks/useForm"
 import { Container } from "./styles"
-
-type Company = {
-    id: string
-    nome_fantasia: string
-    razao_social: string
-    email: string
-    senha_hash: string
-    cnpj: string
-    sobre: string
-    img_perfil: string
-    link_google: string
-    telefone: string
-    email_contato: string
-    nome_contato: string
-    cep: string
-    estado: string
-    cidade: string
-    rua: string
-    numero: string
-    banco: string
-    agencia: string
-    digito: string
-    tipo_conta: string
-    conta: string
-}
+import { COMPANY_POST } from "../../api/api"
+import { UserContext } from "../../context/UserContext"
+import { useNavigate } from "react-router-dom"
+import { useFetch } from "../../hooks/useFetch"
 
 export function CreateCompanyAccount() {
+    const [disabled, setDisabled] = useState(true);
+    const navigate = useNavigate();
+
+    const { loading, error, request } = useFetch();
+
+    const { userLogin } = useContext(UserContext);
+
     const email = useForm('email');
     const password = useForm('password');
     const nome_fantasia = useForm('');
@@ -50,9 +37,75 @@ export function CreateCompanyAccount() {
     const tipo_conta = useForm('');
     const conta = useForm('');
 
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const {urlCompany: url, optionsCompany: options} = COMPANY_POST({
+            nome_fantasia: nome_fantasia.value, 
+            razao_social: razao_social.value, 
+            email: email.value, 
+            senha: password.value, 
+            cnpj: cnpj.value, 
+            sobre: sobre.value, 
+            img_perfil: img_perfil.value, 
+            link_google: link_google.value, 
+            telefone: telefone.value, 
+            email_contato: email_contato.value, 
+            nome_contato: nome_contato.value, 
+            cep: cep.value, 
+            estado: estado.value, 
+            cidade: cidade.value, 
+            rua: rua.value, 
+            numero: numero.value, 
+            banco: banco.value, 
+            agencia: agencia.value, 
+            digito: digito.value, 
+            tipo_conta: tipo_conta.value, 
+            conta: conta.value, 
+        })
+        if (request) {
+            const { response } = await request(url, options);
+            if(response) {
+                if (response.status === 201) {
+                    const typeUser = 'company';
+                    userLogin(email.value, password.value, typeUser);
+                }
+            }
+        }
+    }
+
+    function onChangeOrBlur() {
+        if (
+            !email.value ||
+            !password.value ||
+            !nome_fantasia.value ||
+            !razao_social.value ||
+            !cnpj.value ||
+            !sobre.value ||
+            !img_perfil.value ||
+            !link_google.value ||
+            !telefone.value ||
+            !email_contato.value ||
+            !nome_contato.value ||
+            !cep.value ||
+            !estado.value ||
+            !cidade.value ||
+            !rua.value ||
+            !numero.value ||
+            !banco.value ||
+            !agencia.value ||
+            !digito.value ||
+            !tipo_conta.value ||
+            !conta.value 
+        ) {
+            setDisabled(true);
+        } else {
+            setDisabled(false);
+        }
+    }
+    
     return (
         <Container>
-            <form action="">
+            <form onSubmit={handleSubmit} onChange={onChangeOrBlur} onBlur={onChangeOrBlur}>
                 <legend className="legend">Cadastro de Empresas</legend>
                 <div>
                     <label htmlFor="nome_fantasia">Nome Fantasia</label>
@@ -106,8 +159,30 @@ export function CreateCompanyAccount() {
                     <label htmlFor="conta">Conta</label>
                     <Input id="conta" Etype="text" {...conta} />
                 </div>
-                <button className="buttonCancelar">Voltar</button>
-                <button className="buttonSalvar">Cadastrar</button>
+                <button 
+                    className="buttonCancelar" 
+                    onClick={() => {navigate('/')}}
+                >
+                    Voltar
+                </button>
+                {loading ? 
+                    <button 
+                        type="submit"
+                        disabled={true}  
+                        className="buttonSalvar"
+                    >
+                        Cadastrando...
+                    </button>
+                    :
+                    <button 
+                        type="submit"
+                        disabled={disabled}  
+                        className="buttonSalvar"
+                    >
+                        {disabled === true ? 'Preencha todos os campos' : 'Cadastrar'}
+                    </button>
+                }
+                {error && <p>{error}</p>}
             </form>
         </Container>
     )

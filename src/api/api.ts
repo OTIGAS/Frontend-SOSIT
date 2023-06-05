@@ -20,6 +20,30 @@ interface Customer {
     nascimento: string
 }
 
+interface Company {
+    nome_fantasia: string
+    razao_social: string
+    email: string
+    senha: string
+    cnpj: string
+    sobre: string
+    img_perfil: string
+    link_google: string
+    telefone: string
+    email_contato: string
+    nome_contato: string
+    cep: string
+    estado: string
+    cidade: string
+    rua: string
+    numero: string
+    banco: string
+    agencia: string
+    digito: string
+    tipo_conta: string
+    conta: string
+}
+
 export function TOKEN_POST_CUSTOMER(body: tokenPostBody) {
     return {
         urlCustomer: API_URL + '/customers/authenticate',
@@ -83,10 +107,36 @@ export function CUSTOMER_POST(body: Customer) {
     }
 }
 
-export function COMPANY_POST(body: Customer) {
+export function COMPANY_POST(body: Company) {
     return {
-        urlCustomer: API_URL + '/company',
+        urlCompany: API_URL + '/companies',
+        optionsCompany: {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        }
+    }
+}
+
+export function CUSTOMER_PATCH(body: Customer, id: string) {
+    return {
+        urlCustomer: API_URL + '/customers/' + id,
         optionsCustomer: {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        }
+    }
+}
+
+export function COMPANY_PATCH(body: Company, id: string) {
+    return {
+        urlCompany: API_URL + '/companies',
+        optionsCompany: {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

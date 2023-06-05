@@ -3,9 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { 
     COMPANY_GET, 
     CUSTOMER_GET, 
+    CUSTOMER_PATCH, 
     TOKEN_POST_COMPANY, 
     TOKEN_POST_CUSTOMER 
 } from "../api/api";
+
+interface CustomerWithSenha extends Customer {
+    id: string;
+}
 
 interface Customer {
 	nome: string,
@@ -50,8 +55,9 @@ interface Company {
 }
 
 interface UserContextProps {
-    userLogin: (email: string, senha: string) => Promise<void>;
+    userLogin: (email: string, senha: string, selectedOption?: string | undefined) => Promise<void>;
     userLogout: () => Promise<void>;
+    customerUpdate: (dataUpdate: Customer) => Promise<void>;
     data: Customer | Company | null;
     login: boolean | null;
     loading: boolean | null;
@@ -82,7 +88,6 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('type-user');
         navigate('/');
-        console.log('TESTE')
     }, [navigate]);
 
     useEffect(() => {
@@ -156,55 +161,80 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         setTypeUser('customer');
     }
 
-    async function userLogin(email: string, password: string) {
-
-        setError(null);
-        setLoading(true);
-        const { urlCompany, optionsCompany } = TOKEN_POST_COMPANY({
-            email: email,
-            senha: password,
-        });
-        const tokenCompanyRes = await fetch(urlCompany, optionsCompany);
-        const { token: tokenCompany } = await tokenCompanyRes.json();            
-
-        if (tokenCompany) {
-            window.localStorage.setItem('token', tokenCompany);
-            window.localStorage.setItem('type-user', 'company');
-            await getCompany(tokenCompany);
-            navigate('/empresa/agendas');
+    async function userLogin(email: string, password: string, selectedOption?: string | undefined, typeUser?: string | undefined) {
+        try {
+            setError(null);
+            setLoading(true);
+            if (selectedOption === 'company' || typeUser === 'company') {
+                const { urlCompany, optionsCompany } = TOKEN_POST_COMPANY({
+                    email: email,
+                    senha: password,
+                });
+                const tokenCompanyRes = await fetch(urlCompany, optionsCompany);
+                const { token: tokenCompany } = await tokenCompanyRes.json(); 
+                if(!tokenCompany) throw new Error('E-mail ou Senha invalido(s).');           
+                window.localStorage.setItem('token', tokenCompany);
+                window.localStorage.setItem('type-user', 'company');
+                await getCompany(tokenCompany);
+                navigate('/empresa/agendas');
+                
+            }
+    
+            if (selectedOption === 'customer' || typeUser === 'customer') {
+                const { urlCustomer, optionsCustomer } = TOKEN_POST_CUSTOMER({
+                    email: email,
+                    senha: password,
+                });
+                const tokenCustomerRes = await fetch(urlCustomer, optionsCustomer);
+                const { token: tokenCustomer } = await tokenCustomerRes.json();
+                if(!tokenCustomer) throw new Error('E-mail ou Senha invalido(s).'); 
+                window.localStorage.setItem('token', tokenCustomer);
+                window.localStorage.setItem('type-user', 'customer');
+                await getCustomer(tokenCustomer);
+                navigate('/cliente/home');
+            }
+    
+            else {
+                throw new Error('Escolha a forma de login.');
+            }
+        } catch (err: unknown) {
+            console.log(err);
+            setError((err as Error).message);
+            setLogin(false);
+        } finally {
+            setLoading(false);
         }
-
-        if (!tokenCompany) {
-            console.log('Erro de Login de Empresa esperado.')
-        }
-
-        const { urlCustomer, optionsCustomer } = TOKEN_POST_CUSTOMER({
-            email: email,
-            senha: password,
-        });
-        const tokenCustomerRes = await fetch(urlCustomer, optionsCustomer);
-        const { token: tokenCustomer } = await tokenCustomerRes.json();
-
-        if (tokenCustomer) {
-            window.localStorage.setItem('token', tokenCustomer);
-            window.localStorage.setItem('type-user', 'customer');
-            await getCustomer(tokenCustomer);
-            navigate('/cliente/home');
-        }
-
-        if (!tokenCompany && !tokenCustomer) {
-            setError(`
-                Error Company: ${tokenCompanyRes.statusText},
-                Error Customer: ${tokenCustomerRes.statusText}
-            `);
-        }
-        
-        setLogin(false);
-        setLoading(false);
     }
 
+    async function customerUpdate(dataUpdate: Customer) {
+        try {
+            setError(null);
+            setLoading(true);
+            if (dataUpdate && typeof dataUpdate === 'object' && 'customer' in dataUpdate && typeof dataUpdate.customer === 'object') {
+                console.log({'Data': dataUpdate.customer})
+                if (dataUpdate.customer !== null) {
+                    const customerData = dataUpdate.customer as CustomerWithSenha;
+                    const customerId = customerData.id;
+                    const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(customerData, customerId);
+                    const response = await fetch(url, options);
+                    const json = await response.json();
+                    if (json) {
+                        console.log({'Resposta': response});
+                        setData(json.customer);
+                        console.log({'Data alterada': data})
+                    }
+                }
+            }
+        } catch (error) {
+            throw new Error('Preencha todos os campos.');
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+
     return (
-        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome }}>
+        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate }}>
             {children}
         </UserContext.Provider>
     )

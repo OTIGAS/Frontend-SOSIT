@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom"
 import { UserContext } from "../../context/UserContext";
 import { ThemaContext } from "../../context/ThemeContext";
 
-import { SOSITNav } from "../SOSIT";
+// import { SOSITNav } from "../SOSIT";
 
 export function Header() {
     const { nome, userLogout, typeUser } = useContext(UserContext);

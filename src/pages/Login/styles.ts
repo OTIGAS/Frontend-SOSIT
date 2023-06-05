@@ -118,5 +118,11 @@ export const LoginFormContent = styled.form`
         font-size: 2rem;
     }
 
+    select {
+        height: 1.875rem;
 
+        border-radius: 5px;
+        color: ${props => props.theme['color-1']};
+        background-color: ${props => props.theme['color-9']};
+    }
 `

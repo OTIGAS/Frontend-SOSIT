@@ -25,7 +25,9 @@ import { UserStorage } from "./context/UserContext";
 import { ThemaContext } from "./context/ThemeContext";
 import { ProfileCustomer } from "./pages/Customer/Profile";
 import { ScheduleCustomer } from "./pages/Customer/Schedule";
-import { ProfileCompany } from "./pages/Company/Profile";
+// import { ProfileCompany } from "./pages/Company/Profile";
+
+import { ProtectedRoute } from "./protected-route/ProtectedRoute";
 
 
 export function App() {
@@ -34,7 +36,7 @@ export function App() {
   
   return (
     
-      <ThemeProvider theme={theme === 'light' ? defaultThemeLight : defaultThemeDark}>
+      <ThemeProvider theme={theme === 'dark' ? defaultThemeLight : defaultThemeDark}>
         <BrowserRouter>
             <UserStorage>
               
@@ -44,16 +46,30 @@ export function App() {
                 <Route path="/criar-conta-cliente" element={<CreateCustomerAccount />} />
 
                 <Route path="/" element={<CustomerDefaultLayout />}>
-                    <Route path="/cliente/home" element={<Home />}/>
-                    <Route path="/cliente/historico" element={<HistoryCustomer />}/>
-                    <Route path="/cliente/perfil" element={<ProfileCustomer />}/>
-                    <Route path="/cliente/agendar" element={<ScheduleCustomer />}/>
+                    <Route path="/cliente/home" element={
+                      <ProtectedRoute>
+                        <Home />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/cliente/historico" element={
+                      <ProtectedRoute>
+                        <HistoryCustomer />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/cliente/perfil" element={
+                      <ProtectedRoute>
+                        <ProfileCustomer />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/cliente/agendar" element={
+                      <ScheduleCustomer />                        
+                    }/>
                 </Route>
 
                 <Route path="/" element={<CompanyDefaultLayout />}>
                     <Route path="/empresa/agendas" element={<Schedule />}/>
                     <Route path="/empresa/historico" element={<HistoryCompany />}/>
-                    <Route path="/empresa/perfil" element={<ProfileCompany />}/>
+                    {/* <Route path="/empresa/perfil" element={<ProfileCompany />}/> */}
                 </Route>
 
               </Routes>
@@ -63,3 +79,7 @@ export function App() {
       </ThemeProvider>
   )
 }
+
+{/* <ProtectedRoute>
+ <ScheduleCustomer />
+</ProtectedRoute>  */}

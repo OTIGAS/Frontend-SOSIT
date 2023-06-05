@@ -9,18 +9,20 @@ interface PropsInput {
     error?: string | null;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    className?: string;
 }
 
-export function Input({ id, placeholder, Etype, value, onChange, error, onBlur}: PropsInput) {
+export function Input({ id, placeholder, Etype, value, onChange, error, onBlur, className}: PropsInput) {
     return(
         <>
             <InputStyled
                 id={id} 
                 type={Etype}
-                placeholder={placeholder} 
                 value={value}
-                onChange={onChange}
                 onBlur={onBlur}
+                onChange={onChange}
+                className={className}
+                placeholder={placeholder} 
             />
             <ErrorMessage error={error} />
         </>

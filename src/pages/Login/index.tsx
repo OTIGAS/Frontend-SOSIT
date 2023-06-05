@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { NavLink, Navigate } from "react-router-dom"
 
@@ -16,13 +16,19 @@ export function Login() {
     const email = useForm('email');
     const password = useForm('password');
 
+    const [selectedOption, setSelectedOption] = useState('');
+
     const { userLogin, error, loading, login, typeUser } = useContext(UserContext);
+
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedOption(event.target.value);
+    };
     
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         if (email.validate() && password.validate()) {
-            userLogin(email.value, password.value)
+            userLogin(email.value, password.value, selectedOption)
         }
     }
 
@@ -59,16 +65,22 @@ export function Login() {
             <LoginFormContent action="" onSubmit={handleSubmit}>
                 <label>Fazer Login</label>
                 <div>
+                    <select value={selectedOption} onChange={handleSelectChange}>
+                        <option value="">Escolha a forma de login</option>
+                        <option value="company">Empresa</option>
+                        <option value="customer">Cliente</option>
+                    </select>
                     <Input
                         placeholder='email@example.com' 
                         {...email}
                     />
                     <Input 
-                        placeholder='senha' 
+                        placeholder='senha'
+                        Etype='password' 
                         {...password}
                     />
                     <NavLink to="/">esqueceu sua senha?</NavLink> 
-                    {error && <ErrorMessage error='E-mail ou senha não encontrado(s).' />}
+                    {error && <ErrorMessage error={error} />}
                 </div>
                 <Button type="submit" loading={loading}>
                     {loading === true ? 'Carregando...' : 'Avançar'}
