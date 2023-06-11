@@ -100,6 +100,8 @@ export function ScheduleCustomer() {
     executeOnce();
   }, []);
 
+  console.log(events);
+
   return (
     <Container>
       <FullCalendar 
