@@ -4,15 +4,17 @@ import {
     COMPANY_GET, 
     CUSTOMER_GET, 
     CUSTOMER_PATCH, 
+    DELETE_CUSTOMER, 
     TOKEN_POST_COMPANY, 
     TOKEN_POST_CUSTOMER 
-} from "../api/users";
+} from "../api/api";
 
 interface CustomerWithSenha extends Customer {
     id: string;
 }
 
 interface Customer {
+    id?: string
 	nome: string,
 	email: string,
 	senha: string,
@@ -27,6 +29,7 @@ interface Customer {
 }
 
 interface Company {
+    id?: string,
 	nome_fantasia: string,
 	razao_social: string,
 	email: string,
@@ -58,6 +61,7 @@ interface UserContextProps {
     userLogin: (email: string, senha: string, selectedOption?: string | undefined) => Promise<void>;
     userLogout: () => Promise<void>;
     customerUpdate: (dataUpdate: Customer) => Promise<void>;
+    deleteCustomer: (id: string) => Promise<void>;
     data: Customer | Company | null;
     login: boolean | null;
     loading: boolean | null;
@@ -210,19 +214,12 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         try {
             setError(null);
             setLoading(true);
-            if (dataUpdate && typeof dataUpdate === 'object' && 'customer' in dataUpdate && typeof dataUpdate.customer === 'object') {
-                console.log({'Data': dataUpdate.customer})
-                if (dataUpdate.customer !== null) {
-                    const customerData = dataUpdate.customer as CustomerWithSenha;
-                    const customerId = customerData.id;
-                    const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(customerData, customerId);
-                    const response = await fetch(url, options);
-                    const json = await response.json();
-                    if (json) {
-                        console.log({'Resposta': response});
-                        setData(json.customer);
-                        console.log({'Data alterada': data})
-                    }
+            if (dataUpdate && dataUpdate.id) {
+                const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(dataUpdate, dataUpdate.id);
+                const response = await fetch(url, options);
+                const json = await response.json();
+                if (json) {
+                    setData(json.customer)
                 }
             }
         } catch (error) {
@@ -231,10 +228,29 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     }
+
+    async function deleteCustomer(id:string) {
+        console.log("Cheguei")
+        try {
+            setError(null);
+            setLoading(true);
+            if (id) {
+                const {url, options} = DELETE_CUSTOMER(id);
+                const response = await fetch(url, options);
+                if (response.status === 204){
+                    userLogout();
+                }
+            }
+        } catch (error) {
+            throw new Error('Recurso não encontrado');
+        } finally {
+            setLoading(false);
+        }
+    }
     
 
     return (
-        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate }}>
+        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate, deleteCustomer }}>
             {children}
         </UserContext.Provider>
     )

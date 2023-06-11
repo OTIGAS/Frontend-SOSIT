@@ -46,7 +46,8 @@ export const Container = styled.div`
 
                 border-radius: 5px;
                 color: ${props => props.theme['color-9']};
-                background-color: ${props => props.theme['color-2']};
+                border: 1px solid ${props => props.theme['color-9']};
+                background-color: ${props => props.theme['color-3']};
             }
             
         }
@@ -91,7 +92,7 @@ export const Container = styled.div`
         grid-column:1/3;
     }
 
-    .buttonCancelar {
+    .buttonDeletar {
         grid-column: 1/2;
     }
 

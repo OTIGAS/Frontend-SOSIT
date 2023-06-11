@@ -155,3 +155,20 @@ export function GET_ID_COMPANY(id: string) {
     }
 }
 
+interface Body {
+    query: string;
+}
+
+export function SCHEDULE_POST_SERVICE(body: Body, token: string) {
+    return {
+        url: API_URL + '/schedules/get-by-service',
+        options: {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify(body),
+        }
+    }
+}

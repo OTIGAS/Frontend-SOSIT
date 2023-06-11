@@ -203,6 +203,10 @@ export const ContentSchedules = styled.div`
 
     strong {
         text-align: center;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         margin: auto;
         width: 85%;
@@ -213,6 +217,10 @@ export const ContentSchedules = styled.div`
     }
 
     p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         grid-area: sobre;
         height: 11.25rem;
 
