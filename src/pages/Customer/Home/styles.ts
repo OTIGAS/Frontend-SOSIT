@@ -115,8 +115,14 @@ export const SearchButton = styled.button`
     transition: 0.2s;
     cursor: pointer;
 
-    :hover {
+    :not(:disabled):hover {
         background-color: ${props => props.theme['color-4']};
+    }
+
+    :disabled {
+        font-size: 0.625rem;
+        cursor: not-allowed;
+        background-color: ${props => props.theme['red-500']};
     }
 `
 

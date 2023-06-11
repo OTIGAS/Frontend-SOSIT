@@ -133,7 +133,7 @@ export function CUSTOMER_PATCH(body: Customer, id: string) {
     }
 }
 
-export function COMPANY_PATCH(body: Company, id: string) {
+export function COMPANY_PATCH(body: Company) {
     return {
         urlCompany: API_URL + '/companies',
         optionsCompany: {
@@ -155,32 +155,3 @@ export function GET_ID_COMPANY(id: string) {
     }
 }
 
-interface Body {
-    query: string;
-}
-
-export function SCHEDULE_POST_SERVICE(body: Body, token: string) {
-    return {
-        url: API_URL + '/schedules/get-by-service',
-        options: {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token,
-            },
-            body: JSON.stringify(body),
-        }
-    }
-}
-
-export function HISTORY_COMMITMENTS_CUSTOMER(token: string) {
-    return {
-        url: API_URL + '/commitment/schedules/history-customer',
-        options: {
-            method: 'GET',
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        }
-    }
-}

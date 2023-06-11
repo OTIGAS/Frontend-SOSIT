@@ -6,7 +6,7 @@ import {
     CUSTOMER_PATCH, 
     TOKEN_POST_COMPANY, 
     TOKEN_POST_CUSTOMER 
-} from "../api/api";
+} from "../api/users";
 
 interface CustomerWithSenha extends Customer {
     id: string;

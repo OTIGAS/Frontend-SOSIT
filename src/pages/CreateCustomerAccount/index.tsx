@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { CUSTOMER_POST } from "../../api/api";
+import { CUSTOMER_POST } from "../../api/users";
 import { Input } from "../../components/Input";
 import { useForm } from "../../hooks/useForm";
 import { Container } from "./styles";

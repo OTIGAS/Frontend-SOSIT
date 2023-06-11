@@ -1,4 +1,4 @@
-import { HISTORY_COMMITMENTS_CUSTOMER } from "../../../api/api";
+import { HISTORY_COMMITMENTS_CUSTOMER } from "../../../api/schedules";
 import { HistoryContainer } from "./styles";
 
 export function HistoryCompany() {

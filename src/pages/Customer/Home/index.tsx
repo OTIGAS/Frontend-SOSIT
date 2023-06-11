@@ -1,7 +1,8 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 
 import { useNavigate } from "react-router-dom";
 
+import CompanyIcon from '../../../assets/company-icon.svg'
 import { MagnifyingGlass } from "phosphor-react"
 
 import { 
@@ -16,14 +17,11 @@ import {
     ContentSchedules
 } from "./styles"
 
-import { OptionsSchedule } from "../../../components/OptionsSchedules/"
-
-import { GET_ID_COMPANY, SCHEDULE_POST_SERVICE } from "../../../api/api"
-
 import { useForm } from "../../../hooks/useForm"
 
-import CompanyIcon from '../../../assets/company-icon.svg'
 import { ScheduleContext } from "../../../context/ScheduleContext"
+
+import { OptionsSchedule } from "../../../components/OptionsSchedules/"
 
 interface Agenda {
     id: string;
@@ -32,66 +30,27 @@ interface Agenda {
     company_id: string;
     nome: string;
     dias_semana: string[];
-}
-
-interface Empresa {
-    agencia: string;
-    banco: string;
-    cep: string;
-    cidade: string;
-    cnpj: string;
-    conta: string;
-    digito: string;
-    email: string;
-    email_contato: string;
-    estado: string;
-    id: string;
-    img_perfil: string;
-    link_google: string;
-    nome_contato: string;
-    nome_fantasia: string;
-    numero: string;
-    razao_social: string;
-    rua: string;
-    senha_hash: string;
-    sobre: string;
-    telefone: string;
-    tipo_conta: string;
-}
+  }
 
 export function Home() {
     const navigate = useNavigate();
 
-    const {agenda, setAgenda} = useContext(ScheduleContext);
-
-    const [agendas, setAgendas] = useState<Agenda[]>([]);
-
-    const [empresa, setEmpresa] = useState<Empresa>();
-
-    const token = window.localStorage.getItem('token')
-
     const service = useForm('');
 
+    const {agenda, empresa, agendas, loading, searchSchedule, searchCompany} = useContext(ScheduleContext);
+
+    const token = window.localStorage.getItem('token');
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (token) {
-            const {url, options} = SCHEDULE_POST_SERVICE({
-                query: service.value
-            }, token);
-            const response = await fetch(url, options);
-            const json = await response.json();
-            setAgendas(json.schedules);
+        if(token) {
+            searchSchedule(token, service.value);
         }
     }
-    
-    async function handleClick(schedule: Agenda) {
-        if(schedule.company_id) {
-            const { url, options } = GET_ID_COMPANY(schedule.company_id);
-            const response = await fetch(url, options);
-            const json = await response.json();
-            setEmpresa(json.company);
-            setAgenda(schedule);
+
+    function handleClickSchedule(agenda: Agenda) {
+        if(agenda) {
+            searchCompany(agenda);
         }
     }
 
@@ -108,17 +67,17 @@ export function Home() {
                         <SelectOptions value="service">Serviço</SelectOptions>
                         <SelectOptions value="company">Empresa</SelectOptions>
                     </SelectSearch>
-                    <SearchButton type="submit">
-                        Buscar 
+                    <SearchButton type="submit" disabled={loading ? true : false}>
+                        {loading ? "Pesquisando..." : "Buscar"} 
                         <MagnifyingGlass size={24}/>
                     </SearchButton>
                 </ServiceSearchForm>
                 
                 <SearchResults>
-                    {agendas.map((agenda: any, idAgenda: any) => (
-                        <div onClick={() => handleClick(agenda)}>
+                    {agendas.map((agenda: Agenda) => (
+                        <div onClick={() => handleClickSchedule(agenda)}>
                         <OptionsSchedule
-                            key={idAgenda}
+                            key={agenda.id}
                             nome_servico={agenda.servico}
                             nome_agenda={agenda.nome}
                             dias_semana={agenda.dias_semana}
