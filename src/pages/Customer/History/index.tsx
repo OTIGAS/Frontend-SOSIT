@@ -59,18 +59,71 @@ interface Company {
 export function HistoryCustomer() {
   const [history, setHistory] = useState<History[] | null>(null);
 
+  useEffect(() => {
     const token = window.localStorage.getItem('token');
-
-    async function getHistory(token: string) {
+    if (token !== '') {
+        // eslint-disable-next-line no-inner-declarations
+      async function fetchData() {
         if (token) {
-            const {url, options} = HISTORY_COMMITMENTS_CUSTOMER(token);
-            const response = await fetch(url, options);
-            const json = await response.json();
-            console.log(json);
-        }
-    }
+          const { url, options } = HISTORY_COMMITMENTS_CUSTOMER(token);
+          const response = await fetch(url, options);
+          const json = await response.json();
+          const commitments: Commitment[] = json.commitments;
 
-    if (token) getHistory(token);
+          const historyArray: History[] = [];
+          for (const commitment of commitments) {
+            const { url: scheduleUrl, options: scheduleOptions } = GET_ID_SCHEDULE(token, commitment.schedule_id);
+            const scheduleResponse = await fetch(scheduleUrl, scheduleOptions);
+            const scheduleJson = await scheduleResponse.json();
+            const schedule: Schedule = scheduleJson.schedule;
+
+            const { url: companyUrl, options: companyOptions } = GET_ID_COMPANY(schedule.company_id);
+            const companyResponse = await fetch(companyUrl, companyOptions);
+            const companyJson = await companyResponse.json();
+            const company: Company = companyJson.company;
+
+            const data = format(parseISO(commitment.start_date_time), 'dd/MM/yyyy');
+            const inicio = format(parseISO(commitment.start_date_time), 'HH:mm');
+            const fim = format(parseISO(commitment.end_date_time), 'HH:mm');
+
+            const historyItem: History = {
+              id: commitment.id,
+              customer_id: commitment.customer_id,
+              schedule_id: commitment.schedule_id,
+              start_date_time: commitment.start_date_time,
+              end_date_time: commitment.end_date_time,
+              idEmpresa: company.id,
+              nomeEmpresa: company.nome_fantasia,
+              telefone: company.telefone,
+              nomeAgenda: schedule.nome,
+              service: schedule.servico,
+              data: data,
+              inicio: inicio,
+              fim: fim,
+            };
+
+            historyArray.push(historyItem);
+          }
+
+          setHistory(historyArray);
+        }
+      }
+
+      fetchData();
+    }
+  }, []);
+
+  async function handleClick(commitment: Commitment) {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      const { url, options } = DELETE_COMMITMENTS_SCHEDULE(token, commitment.id);
+      const response = await fetch(url, options);
+      console.log(response);
+      if (response.status === 204) {
+        location.reload();
+      }
+    }
+  }
 
   return (
     <HistoryContainer>

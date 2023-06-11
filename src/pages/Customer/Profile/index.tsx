@@ -1,8 +1,15 @@
 import { useState, useContext, useEffect } from 'react'
 
+import { useNavigate } from "react-router-dom";
+
 import { Container } from "./styles";
 
+import { useForm } from "../../../hooks/useForm";
+
 import { UserContext } from "../../../context/UserContext";
+
+import { Input } from "../../../components/Input";
+
 
 interface Customer {
     id: string;
@@ -21,37 +28,36 @@ interface Customer {
 
 export function ProfileCustomer() {
 
+    const navigate = useNavigate();
     const [disabled, setDisabled] = useState(true);
 
-    const [email, setEmail] = useState("");
-    const [nome, setNome] = useState("");
-    const [cpf, setCpf] = useState("");
-    const [telefone, setTelefone] = useState("");
-    const [cep, setCep] = useState("");
-    const [estado, setEstado] = useState("");
-    const [cidade, setCidade] = useState("");
-    const [rua, setRua] = useState("");
-    const [numero, setNumero] = useState("");
-    const [nascimento, setNascimento] = useState("");
+    const email = useForm('email');
+    const nome = useForm('');
+    const cpf = useForm('');
+    const telefone = useForm('');
+    const cep = useForm('');
+    const estado = useForm('');
+    const cidade = useForm('');
+    const rua = useForm('');
+    const numero = useForm('');
+    const nascimento = useForm('');
 
-    const { data, customerUpdate, loading, error, deleteCustomer } = useContext(UserContext);
-
-    console.log(data)
+    const { data, customerUpdate, loading, error } = useContext(UserContext);
 
     useEffect(() => {
         if (data && typeof data === 'object' && 'customer' in data && typeof data.customer === 'object') {
           const customerData = data.customer as Customer;
           
-          setNome(customerData.nome);
-          setEmail(customerData.email);
-          setCpf(customerData.cpf);
-          setTelefone(customerData.telefone);
-          setCep(customerData.cep);
-          setEstado(customerData.estado);
-          setCidade(customerData.cidade);
-          setRua(customerData.rua);
-          setNumero(customerData.numero);
-          setNascimento(customerData.nascimento);
+          nome.setValue(customerData.nome);
+          email.setValue(customerData.email);
+          cpf.setValue(customerData.cpf);
+          telefone.setValue(customerData.telefone);
+          cep.setValue(customerData.cep);
+          estado.setValue(customerData.estado);
+          cidade.setValue(customerData.cidade);
+          rua.setValue(customerData.rua);
+          numero.setValue(customerData.numero);
+          nascimento.setValue(customerData.nascimento);
     
           setDisabled(false);
         }
@@ -59,45 +65,34 @@ export function ProfileCustomer() {
       
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        
-        let dataUpdate: Customer | null = null;
-    
-        if (data && 'customer' in data && data.customer) {
-            const customerData = data.customer as Customer; // Update the type assertion to Customer
-            dataUpdate = {
-                id: customerData.id,
-                nome: nome,
-                email: email,
-                senha: '123456',
-                cpf: customerData.cpf,
-                telefone: customerData.telefone,
-                cep: customerData.cep,
-                estado: customerData.estado,
-                cidade: customerData.cidade,
-                rua: customerData.rua,
-                numero: customerData.numero,
-                nascimento: customerData.nascimento
-            };
-        } else {
-            dataUpdate = null;
+        const dataUpdate = {
+            nome: nome.value,
+            email: email.value,
+            senha: '123456',
+            cpf: cpf.value,
+            telefone: telefone.value,
+            cep: cep.value,
+            estado: estado.value,
+            cidade: cidade.value,
+            rua: rua.value,
+            numero: numero.value,
+            nascimento: nascimento.value
         }
-    
-        if (dataUpdate) {
-            customerUpdate(dataUpdate);
-        }
+
+        customerUpdate(dataUpdate);
     }
 
     function onChangeOrBlur() {
         if (
-            !email ||
-            !nome ||
-            !cpf ||
-            !telefone ||
-            !cep ||
-            !estado ||
-            !cidade ||
-            !rua ||
-            !numero
+            !email.value ||
+            !nome.value ||
+            !cpf.value ||
+            !telefone.value ||
+            !cep.value ||
+            !estado.value ||
+            !cidade.value ||
+            !rua.value ||
+            !numero.value
         ) {
             setDisabled(true);
         } else {
@@ -105,75 +100,58 @@ export function ProfileCustomer() {
         }
     }
 
-    function handleClick() {
-        if (data && 'customer' in data && data.customer) {
-            const customerData = data.customer as Customer;
-            deleteCustomer(customerData.id)
-        }
-    }
-    
-    
     return (
     <Container>
         <form onSubmit={handleSubmit} onChange={onChangeOrBlur} onBlur={onChangeOrBlur}>
             <legend className="legenda">Informações do Usuário</legend>
             <div>
                 <label htmlFor="nome">Nome</label>
-                <input id="nome" type="text" value={nome} onChange={(event: any) => setNome(event.target.value)} />
+                <Input id="nome" Etype="text" {...nome} />
                 <label htmlFor="email">Email</label>
-                <input id="email" type="email" value={email} onChange={(event: any) => setEmail(event.target.value)} />
+                <Input id="email" Etype="email" {...email} />
                 <label htmlFor="cpf">CPF</label>
-                <input id="cpf" type="text" value={cpf} onChange={(event: any) => setCpf(event.target.value)} />
+                <Input id="cpf" Etype="text" {...cpf} />
                 <label htmlFor="nascimento">Nascimento</label>
-                <input id="nascimento" type="text" value={nascimento} onChange={(event: any) => setNascimento(event.target.value)} />
+                <Input id="nascimento" Etype="text" {...nascimento} />
                 <label htmlFor="telefone">Telefone</label>
-                <input id="telefone" type="text" value={telefone} onChange={(event: any) => setTelefone(event.target.value)} />
+                <Input id="telefone" Etype="text" {...telefone} />
             </div>
             <div>
                 <label htmlFor="cep">CEP</label>
-                <input id="cep" type="text" value={cep} onChange={(event: any) => setCep(event.target.value)} />
+                <Input id="cep" Etype="text" {...cep} />
                 <label htmlFor="estado">Estado</label>
-                <input id="estado" type="text" value={estado} onChange={(event: any) => setEstado(event.target.value)} />
+                <Input id="estado" Etype="text" {...estado} />
                 <label htmlFor="cidade">Cidade</label>
-                <input id="cidade" type="text" value={cidade} onChange={(event: any) => setCidade(event.target.value)} />
+                <Input id="cidade" Etype="text" {...cidade} />
                 <label htmlFor="rua">Rua</label>
-                <input id="rua" type="text" value={rua} onChange={(event: any) => setRua(event.target.value)} />
+                <Input id="rua" Etype="text" {...rua} />
                 <label htmlFor="numero">Número</label>
-                <input id="numero" type="text" value={numero} onChange={(event: any) => setNumero(event.target.value)} />
+                <Input id="numero" Etype="text" {...numero} />
             </div>
-            {loading ? 
-                <button 
-                    className="buttonDeletar" 
-                    onClick={handleClick}
+            <button 
+                    className="buttonCancelar" 
+                    onClick={() => {navigate('/cliente/home')}}
                 >
-                    Deletando...
+                    Voltar
                 </button>
-                :
-                <button 
-                    className="buttonDeletar" 
-                    onClick={handleClick}
-                >
-                    Deletar
-                </button>
-            }
-            {loading ? 
-                <button 
-                    type="submit"
-                    disabled={true}  
-                    className="buttonSalvar"
-                >
-                    Cadastrando...
-                </button>
-                :
-                <button 
-                    type="submit"
-                    disabled={disabled}  
-                    className="buttonSalvar"
-                >
-                    {disabled === true ? 'Preencha todos os campos' : 'Cadastrar'}
-                </button>
-            }
-            {error && <p>{error}</p>}
+                {loading ? 
+                    <button 
+                        type="submit"
+                        disabled={true}  
+                        className="buttonSalvar"
+                    >
+                        Cadastrando...
+                    </button>
+                    :
+                    <button 
+                        type="submit"
+                        disabled={disabled}  
+                        className="buttonSalvar"
+                    >
+                        {disabled === true ? 'Preencha todos os campos' : 'Cadastrar'}
+                    </button>
+                }
+                {error && <p>{error}</p>}
         </form>
     </Container>
     )

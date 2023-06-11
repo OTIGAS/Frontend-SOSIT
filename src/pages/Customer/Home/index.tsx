@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 
 import { useNavigate } from "react-router-dom";
 
@@ -57,12 +57,6 @@ export function Home() {
     function handleClickButton() {
         navigate('/cliente/agendar');
     }
-
-    useEffect(() => {
-        if(token) {
-            searchSchedule(token, service.value);
-        }
-    }, [])
 
     return (
         <>
