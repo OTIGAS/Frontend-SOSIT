@@ -11,6 +11,7 @@ import { Input } from '../../components/Input';
 
 import { useForm } from '../../hooks/useForm';
 import { ErrorMessage } from "../../components/Erro";
+import Swal from "sweetalert2";
 
 export function Login() { 
     const email = useForm('email');
@@ -79,7 +80,9 @@ export function Login() {
                         Etype='password' 
                         {...password}
                     />
-                    <NavLink to="/">esqueceu sua senha?</NavLink> 
+                    <NavLink to="/" onClick={() => Swal.fire('Mande um E-mail para sosit.contato@email.com')}>
+                        esqueceu sua senha?
+                    </NavLink> 
                     {error && <ErrorMessage error={error} />}
                 </div>
                 <Button type="submit" loading={loading}>

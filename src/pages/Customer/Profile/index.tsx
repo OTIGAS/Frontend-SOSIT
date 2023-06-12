@@ -36,8 +36,6 @@ export function ProfileCustomer() {
 
     const { data, customerUpdate, loading, error, deleteCustomer } = useContext(UserContext);
 
-    console.log(data)
-
     useEffect(() => {
         if (data && typeof data === 'object' && 'customer' in data && typeof data.customer === 'object') {
             const customerData = data.customer as Customer;
@@ -63,20 +61,20 @@ export function ProfileCustomer() {
         let dataUpdate: Customer | null = null;
 
         if (data && 'customer' in data && data.customer) {
-            const customerData = data.customer as Customer; // Update the type assertion to Customer
+            const customerData = data.customer as Customer;
             dataUpdate = {
                 id: customerData.id,
                 nome: nome,
                 email: email,
                 senha: '123456',
-                cpf: customerData.cpf,
-                telefone: customerData.telefone,
-                cep: customerData.cep,
-                estado: customerData.estado,
-                cidade: customerData.cidade,
-                rua: customerData.rua,
-                numero: customerData.numero,
-                nascimento: customerData.nascimento
+                cpf: cpf,
+                telefone: telefone,
+                cep: cep,
+                estado: estado,
+                cidade: cidade,
+                rua: rua,
+                numero: numero,
+                nascimento: nascimento
             };
         } else {
             dataUpdate = null;
@@ -111,7 +109,6 @@ export function ProfileCustomer() {
             deleteCustomer(customerData.id)
         }
     }
-
 
     return (
         <Container>

@@ -14,7 +14,7 @@ export function Header() {
     const { nome, userLogout, typeUser } = useContext(UserContext);
     const { handleThemeChange, theme } = useContext(ThemaContext);
 
-    const rota = typeUser === 'company' ? "/company/perfil" : "/cliente/perfil"
+    const rota = typeUser === 'company' ? "/empresa/perfil" : "/cliente/perfil"
 
     return (
         <HeaderContent>

@@ -4,10 +4,13 @@ import {
     COMPANY_GET,
     CUSTOMER_GET,
     CUSTOMER_PATCH,
+    DELETE_COMPANY,
     DELETE_CUSTOMER,
     TOKEN_POST_COMPANY,
     TOKEN_POST_CUSTOMER
 } from "../api/users";
+import { COMPANY_PATCH } from "../api/users";
+import Swal from "sweetalert2";
 
 interface Customer {
     id?: string
@@ -58,6 +61,8 @@ interface UserContextProps {
     userLogout: () => Promise<void>;
     customerUpdate: (dataUpdate: Customer) => Promise<void>;
     deleteCustomer: (id: string) => Promise<void>;
+    companyUpdate: (dataUpdate: Company) => Promise<void>;
+    deleteCompany: (id: string) => Promise<void>;
     data: Customer | Company | null;
     login: boolean | null;
     loading: boolean | null;
@@ -214,6 +219,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                 const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(dataUpdate, dataUpdate.id);
                 const response = await fetch(url, options);
                 const json = await response.json();
+                console.log(json);
                 if (json) {
                     setData(json.customer)
                 }
@@ -225,13 +231,56 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         }
     }
 
+    async function companyUpdate(dataUpdate: Company) {
+        try {
+            setError(null);
+            setLoading(true);
+            if (dataUpdate && dataUpdate.id) {
+                const { urlCompany: url, optionsCompany: options } = COMPANY_PATCH(dataUpdate, dataUpdate.id);
+                const response = await fetch(url, options);
+                const json = await response.json();
+                if (json) {
+                    setData(json.company)
+                }
+            }
+        } catch (error) {
+            throw new Error('Preencha todos os campos.');
+        } finally {
+            setLoading(false);
+        }
+    }
+
     async function deleteCustomer(id: string) {
-        console.log("Cheguei")
         try {
             setError(null);
             setLoading(true);
             if (id) {
                 const { url, options } = DELETE_CUSTOMER(id);
+                const response = await fetch(url, options);
+                console.log(response);
+                if (response.status === 204) {
+                    userLogout();
+                } else if (response.status === 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Você tem compromissos marcados.',
+                      })
+                }
+            }
+        } catch (error) {
+            throw new Error('Recurso não encontrado');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function deleteCompany(id: string) {
+        try {
+            setError(null);
+            setLoading(true);
+            if (id) {
+                const { url, options } = DELETE_COMPANY(id);
                 const response = await fetch(url, options);
                 if (response.status === 204) {
                     userLogout();
@@ -244,9 +293,20 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         }
     }
 
-
     return (
-        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate, deleteCustomer }}>
+        <UserContext.Provider value={{ 
+            userLogin, 
+            userLogout, 
+            data, login, 
+            loading, 
+            error, 
+            typeUser, 
+            nome, 
+            customerUpdate, 
+            deleteCustomer,
+            companyUpdate,
+            deleteCompany
+        }}>
             {children}
         </UserContext.Provider>
     )

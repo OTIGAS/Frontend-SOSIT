@@ -29,6 +29,7 @@ import { ScheduleCustomer } from "./pages/Customer/Schedule";
 
 import { ProtectedRoute } from "./protected-route/ProtectedRoute";
 import { ScheduleStorage } from "./context/ScheduleContext";
+import { ProfileCompany } from "./pages/Company/Profile";
 
 
 export function App() {
@@ -71,7 +72,7 @@ export function App() {
               <Route path="/" element={<CompanyDefaultLayout />}>
                 <Route path="/empresa/agendas" element={<ScheduleCompany />} />
                 <Route path="/empresa/historico" element={<HistoryCompany />} />
-                {/* <Route path="/empresa/perfil" element={<ProfileCompany />}/> */}
+                <Route path="/empresa/perfil" element={<ProfileCompany />}/>
               </Route>
 
             </Routes>

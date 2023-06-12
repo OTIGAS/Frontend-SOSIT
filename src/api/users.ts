@@ -133,11 +133,11 @@ export function CUSTOMER_PATCH(body: Customer, id: string) {
   };
 }
 
-export function COMPANY_PATCH(body: Company) {
+export function COMPANY_PATCH(body: Company, id: string) {
   return {
-    urlCompany: API_URL + "/companies",
+    urlCompany: API_URL + "/companies/update/" + id,
     optionsCompany: {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -158,6 +158,15 @@ export function GET_ID_COMPANY(id: string) {
 export function DELETE_CUSTOMER(id: string) {
   return {
     url: API_URL + "/customers/" + id,
+    options: {
+      method: "DELETE",
+    },
+  };
+}
+
+export function DELETE_COMPANY(id: string) {
+  return {
+    url: API_URL + "/companies/delete/" + id,
     options: {
       method: "DELETE",
     },

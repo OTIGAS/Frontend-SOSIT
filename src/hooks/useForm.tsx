@@ -9,6 +9,18 @@ const types = {
       regexp: /^[a-zA-Z0-9]{6,}$/,
       message: 'A senha deve ter pelo menos 6 caracteres.',
     },
+    cpf: {
+        regexp: /^(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2})|(\d{3}\.?\d{3}\.?\d{3}-?\d{2})$/,
+        message: 'Preencha com um CPF válido',
+    },
+    telefone: {
+        regexp: /^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/,
+        message: 'Preencha com um telefone válido'
+    },
+    cep: {
+        regexp: /^([\d]{2})([\d]{3})([\d]{3})$|^[\d]{2}.[\d]{3}-[\d]{3}$/,
+        message: 'Preencha com um CEP válido'
+    }
   };
   
 

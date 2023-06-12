@@ -16,9 +16,9 @@ export function CreateCustomerAccount () {
     const email = useForm('email');
     const password = useForm('password');
     const nome = useForm('');
-    const cpf = useForm('');
-    const telefone = useForm('');
-    const cep = useForm('');
+    const cpf = useForm('cpf');
+    const telefone = useForm('telefone');
+    const cep = useForm('cep');
     const estado = useForm('');
     const cidade = useForm('');
     const rua = useForm('');
@@ -100,7 +100,7 @@ export function CreateCustomerAccount () {
                     <label htmlFor="rua">Rua</label>
                     <Input id="rua" Etype="text" {...rua} />
                     <label htmlFor="numero">Número</label>
-                    <Input id="numero" Etype="text" {...numero} />
+                    <Input id="numero" Etype="numero" {...numero} />
                 </div>
                 <button 
                     className="buttonCancelar" 

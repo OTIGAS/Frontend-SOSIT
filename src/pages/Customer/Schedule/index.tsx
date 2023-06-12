@@ -55,7 +55,6 @@ export function ScheduleCustomer() {
     const inicio = format(dataI, "yyyy-MM-dd'T'HH:mm:ss");
     const fim = format(dateE, "yyyy-MM-dd'T'HH:mm:ss");
 
-    console.log({ inicio, fim });
     if (token && inicio && fim) {
       const { url, options } = CREATE_COMMITMENT(inicio, fim, agenda.id, token);
       const response = await fetch(url, options);
@@ -133,6 +132,7 @@ export function ScheduleCustomer() {
         eventShortHeight={30}
         eventClick={(info: any) => {
           info.jsEvent.preventDefault();
+          console.log(info.event.title)
           const dataI = info.event.start;
           const dataE = info.event.end;
           const dia = dataI.getDate();
@@ -146,8 +146,16 @@ export function ScheduleCustomer() {
             confirmButtonColor: '#32CD32',
             confirmButtonText: 'Confirmar'
           }).then((result) => {
-            if (result.isConfirmed) {
-              handleEventClick(fixDate(dataI), fixDate(dataE));
+            if(info.event.title === "Disponível"){
+              if (result.isConfirmed) {
+                handleEventClick(fixDate(dataI), fixDate(dataE));
+              }
+            }else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Horário Ocupado',
+              })
             }
           })
         }}
