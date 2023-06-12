@@ -5,9 +5,7 @@ import { App } from './App.tsx'
 import { ThemaStorage } from './context/ThemeContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-      <ThemaStorage>
-        <App />
-      </ThemaStorage>
-  </React.StrictMode>,
+  <ThemaStorage>
+    <App />
+  </ThemaStorage>,
 )

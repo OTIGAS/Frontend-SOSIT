@@ -1,63 +1,63 @@
 import { createContext, useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { 
-    COMPANY_GET, 
-    CUSTOMER_GET, 
-    CUSTOMER_PATCH, 
-    TOKEN_POST_COMPANY, 
-    TOKEN_POST_CUSTOMER 
+import {
+    COMPANY_GET,
+    CUSTOMER_GET,
+    CUSTOMER_PATCH,
+    DELETE_CUSTOMER,
+    TOKEN_POST_COMPANY,
+    TOKEN_POST_CUSTOMER
 } from "../api/users";
 
-interface CustomerWithSenha extends Customer {
-    id: string;
-}
-
 interface Customer {
-	nome: string,
-	email: string,
-	senha: string,
-	cpf: string,
-	telefone: string,
-	cep: string,
-	estado: string,
-	cidade: string,
-	rua: string,
-	numero: string,
-	nascimento: string,
+    id?: string
+    nome: string,
+    email: string,
+    senha: string,
+    cpf: string,
+    telefone: string,
+    cep: string,
+    estado: string,
+    cidade: string,
+    rua: string,
+    numero: string,
+    nascimento: string,
 }
 
 interface Company {
-	nome_fantasia: string,
-	razao_social: string,
-	email: string,
-	senha: string,
-	cnpj: string,
+    id?: string,
+    nome_fantasia: string,
+    razao_social: string,
+    email: string,
+    senha: string,
+    cnpj: string,
 
-	sobre: string,
-	img_perfil: string,
-	link_google: string,
+    sobre: string,
+    img_perfil: string,
+    link_google: string,
 
-	telefone: string,
-	email_contato: string,
-	nome_contato: string,
+    telefone: string,
+    email_contato: string,
+    nome_contato: string,
 
-	cep: string,
-	estado: string,
-	cidade: string,
-	rua: string,
-	numero: string,
+    cep: string,
+    estado: string,
+    cidade: string,
+    rua: string,
+    numero: string,
 
-	banco: string,
-	agencia: string,
-	digito: string,
-	tipo_conta: string,
-	conta: string
+    banco: string,
+    agencia: string,
+    digito: string,
+    tipo_conta: string,
+    conta: string
 }
 
 interface UserContextProps {
     userLogin: (email: string, senha: string, selectedOption?: string | undefined) => Promise<void>;
     userLogout: () => Promise<void>;
     customerUpdate: (dataUpdate: Customer) => Promise<void>;
+    deleteCustomer: (id: string) => Promise<void>;
     data: Customer | Company | null;
     login: boolean | null;
     loading: boolean | null;
@@ -65,7 +65,7 @@ interface UserContextProps {
     typeUser: string | null;
     nome: string | null;
 }
-  
+
 export const UserContext = createContext<UserContextProps>({} as UserContextProps);
 
 export function UserStorage({ children }: { children: React.ReactNode }) {
@@ -99,7 +99,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                     try {
                         setError(null);
                         setLoading(true);
-                        const { urlCompany :url, optionsCompany: options } = COMPANY_GET(token);
+                        const { urlCompany: url, optionsCompany: options } = COMPANY_GET(token);
                         const response = await fetch(url, options);
                         const json = await response.json();
                         if (!json.company) throw new Error('Token inválido.');
@@ -115,7 +115,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                     try {
                         setError(null);
                         setLoading(true);
-                        const { urlCustomer, optionsCustomer} = CUSTOMER_GET(token);
+                        const { urlCustomer, optionsCustomer } = CUSTOMER_GET(token);
                         const response = await fetch(urlCustomer, optionsCustomer);
                         const json = await response.json();
                         if (!json.customer) throw new Error('Token inválido.');
@@ -127,7 +127,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                         setLoading(false);
                     }
                 }
-                
+
             }
 
         }
@@ -150,7 +150,7 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
 
     async function getCustomer(token: string) {
         const { urlCustomer, optionsCustomer } = CUSTOMER_GET(token);
-        
+
         const response = await fetch(urlCustomer, optionsCustomer);
         const json = await response.json();
 
@@ -171,15 +171,15 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                     senha: password,
                 });
                 const tokenCompanyRes = await fetch(urlCompany, optionsCompany);
-                const { token: tokenCompany } = await tokenCompanyRes.json(); 
-                if(!tokenCompany) throw new Error('E-mail ou Senha invalido(s).');           
+                const { token: tokenCompany } = await tokenCompanyRes.json();
+                if (!tokenCompany) throw new Error('E-mail ou Senha invalido(s).');
                 window.localStorage.setItem('token', tokenCompany);
                 window.localStorage.setItem('type-user', 'company');
                 await getCompany(tokenCompany);
                 navigate('/empresa/agendas');
-                
+
             }
-    
+
             if (selectedOption === 'customer' || typeUser === 'customer') {
                 const { urlCustomer, optionsCustomer } = TOKEN_POST_CUSTOMER({
                     email: email,
@@ -187,13 +187,13 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
                 });
                 const tokenCustomerRes = await fetch(urlCustomer, optionsCustomer);
                 const { token: tokenCustomer } = await tokenCustomerRes.json();
-                if(!tokenCustomer) throw new Error('E-mail ou Senha invalido(s).'); 
+                if (!tokenCustomer) throw new Error('E-mail ou Senha invalido(s).');
                 window.localStorage.setItem('token', tokenCustomer);
                 window.localStorage.setItem('type-user', 'customer');
                 await getCustomer(tokenCustomer);
                 navigate('/cliente/home');
             }
-    
+
             else {
                 throw new Error('Escolha a forma de login.');
             }
@@ -210,19 +210,12 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
         try {
             setError(null);
             setLoading(true);
-            if (dataUpdate && typeof dataUpdate === 'object' && 'customer' in dataUpdate && typeof dataUpdate.customer === 'object') {
-                console.log({'Data': dataUpdate.customer})
-                if (dataUpdate.customer !== null) {
-                    const customerData = dataUpdate.customer as CustomerWithSenha;
-                    const customerId = customerData.id;
-                    const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(customerData, customerId);
-                    const response = await fetch(url, options);
-                    const json = await response.json();
-                    if (json) {
-                        console.log({'Resposta': response});
-                        setData(json.customer);
-                        console.log({'Data alterada': data})
-                    }
+            if (dataUpdate && dataUpdate.id) {
+                const { urlCustomer: url, optionsCustomer: options } = CUSTOMER_PATCH(dataUpdate, dataUpdate.id);
+                const response = await fetch(url, options);
+                const json = await response.json();
+                if (json) {
+                    setData(json.customer)
                 }
             }
         } catch (error) {
@@ -231,10 +224,29 @@ export function UserStorage({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     }
-    
+
+    async function deleteCustomer(id: string) {
+        console.log("Cheguei")
+        try {
+            setError(null);
+            setLoading(true);
+            if (id) {
+                const { url, options } = DELETE_CUSTOMER(id);
+                const response = await fetch(url, options);
+                if (response.status === 204) {
+                    userLogout();
+                }
+            }
+        } catch (error) {
+            throw new Error('Recurso não encontrado');
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
-        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate }}>
+        <UserContext.Provider value={{ userLogin, userLogout, data, login, loading, error, typeUser, nome, customerUpdate, deleteCustomer }}>
             {children}
         </UserContext.Provider>
     )

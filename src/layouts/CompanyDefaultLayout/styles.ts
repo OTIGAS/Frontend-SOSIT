@@ -1,49 +1,48 @@
 import styled from "styled-components";
 
 export const LayoutContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    
-    main {
-        max-width: 90rem;
-        max-height: 50.9375rem;
-        margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 
-        background-color: ${props => props.theme['color-2']};
+  main {
+    max-width: 90rem;
+    max-height: 50.9375rem;
+    margin: 0 auto;
 
-        padding: 1.25rem;
+    background-color: ${(props) => props.theme["color-2"]};
 
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 1.25rem;
-    }
-`
+    padding: 1.25rem;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+  }
+`;
 
 export const NavContent = styled.nav`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    
-    height: 3.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
-    a {
-        font-size: 1.5rem;
-        text-decoration: none;
-        color: ${props => props.theme['color-9']};
+  height: 3.125rem;
 
-        padding: 0 1rem;
-        border-radius: 5px;
+  a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: ${(props) => props.theme["color-9"]};
 
-        transition: 0.2s;
-        border-bottom: 2px solid transparent;
+    padding: 0 1rem;
+    border-radius: 5px;
 
-        &:hover {
-            color: ${props => props.theme['primary-neutral']};
-        }
+    transition: 0.2s;
+    border-bottom: 2px solid transparent;
 
-        &.active {
-            color: ${props => props.theme['primary-neutral']};
-        }
+    &:hover {
+      color: ${(props) => props.theme["primary-neutral"]};
     }
 
-`
+    &.active {
+      color: ${(props) => props.theme["primary-neutral"]};
+    }
+  }
+`;

@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { GET_ID_COMPANY } from '../api/users';
-import { SCHEDULE_POST_SERVICE } from '../api/schedules';
+import { GET_ALL_SCHEDULE, SCHEDULE_POST_SERVICE } from '../api/schedules';
 
 interface Agenda {
   id: string;
@@ -43,6 +43,7 @@ interface ScheduleProps {
   loading: boolean | null;
   searchSchedule: (token: string, search: string) => Promise<void>;
   searchCompany: (schedule: Agenda) => Promise<void>;
+  searchCompanySchedules: (token: string, data: Empresa) => Promise<Agenda[]>;
 }
 
 export const ScheduleContext = createContext<ScheduleProps>({
@@ -51,9 +52,11 @@ export const ScheduleContext = createContext<ScheduleProps>({
   agendas: [],
   loading: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  searchSchedule: async () => {},
+  searchSchedule: async () => { },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  searchCompany: async () => {},
+  searchCompany: async () => { },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  searchCompanySchedules: async () => []
 });
 
 export function ScheduleStorage({ children }: { children: React.ReactNode }) {
@@ -89,6 +92,19 @@ export function ScheduleStorage({ children }: { children: React.ReactNode }) {
     setLoading(false);
   }
 
+  async function searchCompanySchedules(token: string, data: Empresa) {
+    setLoading(true);
+    if (token) {
+      const { url, options } = GET_ALL_SCHEDULE(token);
+      const response = await fetch(url, options);
+      const json: any = await response.json();
+      const agendas = json.schedules.filter((agenda: any) => agenda.company_id === data);
+      setLoading(false);
+      return agendas;
+    }
+    setLoading(false);
+  }
+
   return (
     <ScheduleContext.Provider
       value={{
@@ -97,7 +113,8 @@ export function ScheduleStorage({ children }: { children: React.ReactNode }) {
         agendas,
         loading,
         searchSchedule,
-        searchCompany
+        searchCompany,
+        searchCompanySchedules
       }}
     >
       {children}

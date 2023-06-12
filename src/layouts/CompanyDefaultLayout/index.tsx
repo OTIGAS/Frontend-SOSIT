@@ -4,7 +4,7 @@ import { LayoutContainer, NavContent } from "./styles";
 
 import { Header } from "../../components/Header";
 
- export function CompanyDefaultLayout() {
+export function CompanyDefaultLayout() {
     return (
         <>
             <LayoutContainer>
@@ -19,4 +19,4 @@ import { Header } from "../../components/Header";
             </LayoutContainer>
         </>
     )
- }
+}
